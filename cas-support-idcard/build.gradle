@@ -1,0 +1,9 @@
+dependencies {
+	compile project(':cas-support-esteid')
+	compile project(':cas-overlay-extra-ui')
+	compile "org.apereo.cas:cas-server-core-webflow:${project.'cas.version'}"
+   	compile ('ee.sk.digidoc:jdigidoc:3.12.1') {
+		exclude group: 'iaik.pkcs'
+	}
+	compileOnly 'javax.servlet:javax.servlet-api:3.1.0'
+}

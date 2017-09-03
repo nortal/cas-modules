@@ -1,0 +1,13 @@
+<form method="post" id="idCardLoginForm">
+
+	<input type="hidden" name="execution" th:value="${flowExecutionKey}" />
+	<input type="hidden" name="_eventId" value="submitIdCard" />
+
+	<div>
+		<h2>
+			<a href="#"
+			   onclick="getEsteidCertificate(event)" 
+			   th:text="#{login.id_card.header}">Login with ID-Card"</a>
+		</h2>
+	</div>
+</form>

@@ -1,0 +1,4 @@
+1.Project formatting settings "Window/Preferences":
+	a."Java/Code Style/Formatter" Import java formatter settings from "etc/code-format/eclipse-formatter.xml".
+	b."XML/XML files/Editor" Alter xml formatter line width to 120.
+	c."Web/HTML files/Editor" Alter the line width to 120.

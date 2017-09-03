@@ -1,0 +1,10 @@
+syntax: glob
+target
+.classpath
+.settings/
+.project
+*.bak
+*.log
+build
+bin
+.gradle

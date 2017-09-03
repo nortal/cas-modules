@@ -1,0 +1,34 @@
+<form method="post" id="mobileIdLoginForm">
+	<input type="hidden" name="execution" th:value="${flowExecutionKey}" />
+	<input type="hidden" name="_eventId" value="submitMobileId" />
+</form>
+
+<div>
+	<h2>
+		<label for="phonenumber" th:text="#{login.mobile_id.header}">MobileId Login</label>
+	</h2>
+	<div>
+		<!-- Various messages -->
+		<div id="mobileId_message" style="display: none;">
+			<input id="mobileIdCancel" type="button"
+				th:value="#{login.mobile_id.label.cancelbutton}" onclick="cancelMobileIdAuth()" />
+			<p id="mIdMessageText"></p>
+			<p id="mIdMessageTextError" style="display: none;" th:text="#{login.mobile_id.error.failed}">
+				Error, failed
+			</p>
+		</div>
+		<p id="mIdNumberRequired" style="display: none;" th:text="#{login.mobile_id.rm.error.canContainOnlyDigits}">
+			Only digits allowed
+		</p>
+		<div id="mobileId_actions">
+			<input type="text" id="phonenumber" name="phonenumber" tabindex="2" /> 
+			<input id="certificateCheckUrl" name="certificateCheckUrl" type="hidden" th:value="${mobileIdLoginUrl}" />
+			<input id="messageAfterClick" name="messageAfterClick" type="hidden" th:value="#{login.mobile_id.startingSession}" />
+			<input id="mobileIdButton" type="submit" th:value="#{login.mobile_id.submit}" tabindex="3" onclick="startMobileIdAuthentication()" />
+			<p class="info meta" th:text="#{login.mobile_id.info}">
+				Info
+			</p>
+		</div>
+	</div>
+</div>
+<!--/login-mobile-->

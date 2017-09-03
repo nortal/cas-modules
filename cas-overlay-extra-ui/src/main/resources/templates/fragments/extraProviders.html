@@ -1,0 +1,5 @@
+<div class="well well-lg hidden-xs">
+	<div th:each="f: ${@extraUiRegistry.fragments}">
+		<div th:replace="'fragments/' + ${f}" />
+	</div>
+</div>

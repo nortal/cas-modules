@@ -1,0 +1,27 @@
+configurations {
+	compile.exclude group: 'javax.servlet', module: 'servlet-api'
+}
+
+ext.axisExclusions = {
+		exclude group: 'xerces', module: 'xercesImpl'
+		exclude group: 'org.apache.woden', module: 'woden-impl-dom'
+		exclude group: 'javax.servlet', module: 'servlet-api'
+}
+
+dependencies {
+	compile project(':cas-support-messages')
+	compile project(':cas-support-esteid')
+	compile project(':cas-overlay-extra-ui')
+	compile "org.apereo.cas:cas-server-core-webflow:${project.'cas.version'}"
+	compile 'com.googlecode.json-simple:json-simple:1.1'
+	compile 'ee.sk.mobileid:mobile-id-client:1.0'
+	
+	compile 'org.apache.axis2:axis2-transport-local:1.5.2', axisExclusions
+	compile 'org.apache.axis2:axis2-transport-http:1.5.2', axisExclusions
+	
+	compile ('org.apache.xmlbeans:xmlbeans:2.4.0') {
+		exclude group: 'stax', module: 'stax-api'
+	}
+	
+	compileOnly 'javax.servlet:javax.servlet-api:3.1.0'
+}

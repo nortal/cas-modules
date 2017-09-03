@@ -1,0 +1,6 @@
+include 'cas-support-idcard'
+include 'cas-support-mobileid'
+include 'cas-support-esteid'
+include 'cas-support-extra-ui'
+include 'cas-overlay-extra-ui'
+include 'cas-support-messages'
