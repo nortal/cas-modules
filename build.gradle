@@ -1,3 +1,7 @@
+plugins {
+	id "com.github.hierynomus.license" version "0.14.0" apply false
+}
+
 allprojects {
 	group = 'com.nortal.cas'
 	version = '5.1.1'
@@ -12,6 +16,13 @@ allprojects {
 configure(subprojects.findAll {it.name.contains 'support'}) {
 	apply plugin: 'java'
 	apply plugin: 'maven-publish'
+	apply plugin: 'com.github.hierynomus.license'
+	
+	license {
+	      header rootProject.file('LICENSE_HEADER')
+	      strictCheck true
+	}
+
 
 	task sourceJar(type: Jar) {
     	from sourceSets.main.allJava
