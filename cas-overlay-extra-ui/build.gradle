@@ -1,5 +1,4 @@
 apply plugin: 'war'
-apply plugin: 'maven-publish'
 
 dependencies {
 	compile project(':cas-support-extra-ui')
@@ -7,7 +6,7 @@ dependencies {
 
 publishing {
 	publications {
-		mavenWeb(MavenPublication) {
+		maven(MavenPublication) {
 			//We need dependencies, components.web does not provide any
 			from components.java
 			artifacts = [war]

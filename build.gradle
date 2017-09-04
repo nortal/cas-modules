@@ -4,7 +4,7 @@ plugins {
 
 allprojects {
 	group = 'com.nortal.cas'
-	version = '5.1.1'
+	version = '5.1.1-1'
 	repositories {
 		jcenter()
 		maven {
@@ -13,9 +13,32 @@ allprojects {
 	}
 }
 
+subprojects {
+	apply plugin: 'maven-publish'
+	
+	publishing {
+		if (!project.hasProperty('bintrayUsername')) {
+    		ext.bintrayUsername = ''
+  		}
+  	
+	  	if (!project.hasProperty('bintrayPassword')) {
+	    	ext.bintrayPassword = ''
+	  	}
+
+	  	repositories {
+	        maven {
+	        	url 'https://api.bintray.com/maven/nortal/cas-modules/'+project.name
+	            credentials {
+	                username bintrayUsername
+	                password bintrayPassword
+	            }
+	        }
+	    }
+	}
+}
+
 configure(subprojects.findAll {it.name.contains 'support'}) {
 	apply plugin: 'java'
-	apply plugin: 'maven-publish'
 	apply plugin: 'com.github.hierynomus.license'
 	
 	license {
@@ -27,10 +50,10 @@ configure(subprojects.findAll {it.name.contains 'support'}) {
 	task sourceJar(type: Jar) {
     	from sourceSets.main.allJava
 	}
-
+	
 	publishing {
 	    publications {
-	        mavenJava(MavenPublication) {
+	        maven(MavenPublication) {
 	            from components.java
 	
 	            artifact sourceJar {
