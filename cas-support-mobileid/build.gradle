@@ -1,6 +1,8 @@
 configurations {
+	wsdlGen
 	compile.exclude group: 'javax.servlet', module: 'servlet-api'
 }
+ext.axisVersion = '1.7.6'
 
 ext.axisExclusions = {
 		exclude group: 'xerces', module: 'xercesImpl'
@@ -8,20 +10,52 @@ ext.axisExclusions = {
 		exclude group: 'javax.servlet', module: 'servlet-api'
 }
 
+license {
+	// Exclude generated sources
+	excludes(["ee/**/*.*", "org/**/*.*", "schemaorg_apache_xmlbeans/**/*.*"])
+}
 dependencies {
+	wsdlGen 'org.apache.axis2:axis2-tools:1.1', 'org.apache.axis2:axis2-xmlbeans:' + axisVersion
+	
 	compile project(':cas-support-messages')
 	compile project(':cas-support-esteid')
 	compile project(':cas-overlay-extra-ui')
 	compile "org.apereo.cas:cas-server-core-webflow:${project.'cas.version'}"
 	compile 'com.googlecode.json-simple:json-simple:1.1'
-	compile 'ee.sk.mobileid:mobile-id-client:1.0'
 	
-	compile 'org.apache.axis2:axis2-transport-local:1.5.2', axisExclusions
-	compile 'org.apache.axis2:axis2-transport-http:1.5.2', axisExclusions
-	
-	compile ('org.apache.xmlbeans:xmlbeans:2.4.0') {
-		exclude group: 'stax', module: 'stax-api'
-	}
+	compile 'org.apache.axis2:axis2-transport-local:' + axisVersion, axisExclusions
+	compile 'org.apache.axis2:axis2-transport-http:' + axisVersion, axisExclusions
+	compile 'org.apache.axis2:axis2-xmlbeans:' + axisVersion, axisExclusions
 	
 	compileOnly 'javax.servlet:javax.servlet-api:3.1.0'
 }
+
+project.ext {
+	wsdl = file("src/main/wsdl/digidocservice.sk.ee.wsdl")
+	generatedSourceDir = new File(buildDir, "generated")
+}
+
+task wsdl2java() {
+  inputs.dir wsdl.parentFile
+  outputs.dir generatedSourceDir
+  
+  doLast {
+    ant.taskdef(
+        name: "genClassesFromWSDL",
+        classname: "org.apache.axis2.tool.ant.AntCodegenTask",
+        classpath: configurations.wsdlGen.asPath
+    )
+    if (!generatedSourceDir.exists()) {
+    	generatedSourceDir.mkdirs()
+    }    
+    ant.genClassesFromWSDL(wsdlfilename: wsdl.toString(),
+    					   output: generatedSourceDir.toString(),
+    					   databindingName: "xmlbeans") {
+           
+    }
+  }
+}
+
+sourceSets.main.java.srcDir new File(generatedSourceDir, "src")
+sourceSets.main.resources.srcDir new File(generatedSourceDir, "resources")
+compileJava.dependsOn wsdl2java

@@ -30,7 +30,7 @@ import com.nortal.cas.support.mobileid.model.MobileIdAuth;
 import com.nortal.cas.support.mobileid.model.MobileIdException;
 import com.nortal.cas.support.mobileid.service.MobileIdService;
 
-import ee.sk.digidocservice.digidocservice_2_3_wsdl.DigiDocServiceStub;
+import ee.sk.www.digidocservice.digidocservice_2_3_wsdl.DigiDocServiceStub;
 import ee.sk.www.digidocservice.digidocservice_2_3_wsdl.GetMobileAuthenticateStatusDocument;
 import ee.sk.www.digidocservice.digidocservice_2_3_wsdl.GetMobileAuthenticateStatusDocument.GetMobileAuthenticateStatus;
 import ee.sk.www.digidocservice.digidocservice_2_3_wsdl.GetMobileAuthenticateStatusResponseDocument;
