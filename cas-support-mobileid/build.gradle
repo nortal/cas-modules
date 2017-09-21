@@ -19,7 +19,7 @@ dependencies {
 	
 	compile project(':cas-support-messages')
 	compile project(':cas-support-esteid')
-	compile project(':cas-overlay-extra-ui')
+	compile project(':cas-support-extra-ui')
 	compile "org.apereo.cas:cas-server-core-webflow:${project.'cas.version'}"
 	compile 'com.googlecode.json-simple:json-simple:1.1'
 	
