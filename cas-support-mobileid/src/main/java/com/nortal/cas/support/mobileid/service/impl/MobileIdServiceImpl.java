@@ -20,9 +20,6 @@ import java.rmi.RemoteException;
 import org.apache.axis2.AxisFault;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 
 import com.nortal.cas.support.mobileid.enums.MobileIdFault;
 import com.nortal.cas.support.mobileid.enums.MobileIdStatus;
@@ -43,13 +40,13 @@ import ee.sk.www.digidocservice.digidocservice_2_3_wsdl.MobileAuthenticateRespon
  * @author Deniss Mokijevski
  * @author Maksim Boiko (max@webmedia.ee)
  */
-public class MobileIdServiceImpl implements MobileIdService, ApplicationContextAware {
+public class MobileIdServiceImpl implements MobileIdService {
   private static final Logger log = LoggerFactory.getLogger(MobileIdServiceImpl.class);
 
   private String serviceName;
   private String serviceUrl;
   
-  public MobileIdAuth startMobileId(String phoneOrId, boolean isIdCode) throws MobileIdException {
+  public MobileIdAuth startMobileId(String phone, String idCode) throws MobileIdException {
     DigiDocServiceStub digiDocServiceStub = null;
 
     try {
@@ -59,7 +56,7 @@ public class MobileIdServiceImpl implements MobileIdService, ApplicationContextA
       throw new MobileIdException(MobileIdFault.UNKNOWN, e);
     }
 
-    MobileAuthenticateDocument authenticateDocument = getMobileAuthenticateDocument(phoneOrId, isIdCode);
+    MobileAuthenticateDocument authenticateDocument = getMobileAuthenticateDocument(phone, idCode);
     
     try {
       
@@ -76,8 +73,8 @@ public class MobileIdServiceImpl implements MobileIdService, ApplicationContextA
       answer.setUserGivenname(mobileAuthenticateResponse.getUserGivenname());
       answer.setUserSurname(mobileAuthenticateResponse.getUserSurname());
       answer.setIdCode(mobileAuthenticateResponse.getUserIDCode());
-      if(!isIdCode){
-    	  answer.setPhoneNo(phoneOrId);
+      if(phone != null){
+    	  answer.setPhoneNo(phone);
       }
       return answer;
     } catch (RemoteException e) {
@@ -86,7 +83,7 @@ public class MobileIdServiceImpl implements MobileIdService, ApplicationContextA
     }
   }
 
-private MobileAuthenticateDocument getMobileAuthenticateDocument(String phoneOrId, boolean isIdCode) {
+private MobileAuthenticateDocument getMobileAuthenticateDocument(String phone, String idCode) {
 	MobileAuthenticateDocument authenticateDocument = MobileAuthenticateDocument.Factory.newInstance();
     MobileAuthenticate mobileAuthenticate = authenticateDocument.addNewMobileAuthenticate();
     mobileAuthenticate.setCountryCode("EE");
@@ -94,11 +91,11 @@ private MobileAuthenticateDocument getMobileAuthenticateDocument(String phoneOrI
     mobileAuthenticate.setReturnCertData(true);
     mobileAuthenticate.setMessagingMode("asynchClientServer");
     mobileAuthenticate.setServiceName(serviceName);
-    if(isIdCode){
-    	mobileAuthenticate.setIDCode(phoneOrId);
+    if(idCode != null){
+    	mobileAuthenticate.setIDCode(idCode);
     }
-    else{
-    	mobileAuthenticate.setPhoneNo(phoneOrId);
+    if (phone != null){
+    	mobileAuthenticate.setPhoneNo(phone);
     }
 	return authenticateDocument;
 }
@@ -122,15 +119,6 @@ private MobileAuthenticateDocument getMobileAuthenticateDocument(String phoneOrI
     } catch (RemoteException e) {
       throw new MobileIdException(MobileIdFault.getViga(e.getMessage()), e);
     }
-  }
-
-  public void setApplicationContext(ApplicationContext arg0) throws BeansException {
-    // This method makes sure that current service gets initialized before servlet that uses it...
-    log.info("Initializing mobileIdService");
-//FIXME Is this still needed in Weblogic 12c ? "In Weblogic projects make sure that https protocol uses Weblogic SSLSocketFactory."
-//FIXME Should we set socket factory for the Protocol object ?
-//  Protocol.registerProtocol("https", new Protocol("https", new WeblogicSocketFactory(), 443));
-//  Protocol.registerProtocol("https", new Protocol("https", new SSLProtocolSocketFactory(), 8443));
   }
 
   public void setServiceName(String serviceName) {

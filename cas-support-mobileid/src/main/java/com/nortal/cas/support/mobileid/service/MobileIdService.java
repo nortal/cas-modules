@@ -34,7 +34,7 @@ public interface MobileIdService {
    * @param phoneOrIdCode telefoni number või isikukood
    * @param isIdCode true, kui on Eesti isikukood
    */
-  MobileIdAuth startMobileId(String phoneOrIdCode, boolean isIdCode) throws MobileIdException;
+  MobileIdAuth startMobileId(String phone, String idCode) throws MobileIdException;
 
   /**
    * Saadab DigiDocService'le päringu ning tagastab hetke autentimise staatus.

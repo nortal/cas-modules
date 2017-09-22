@@ -30,6 +30,7 @@ public enum MobileId implements MessageInterface {
 	PLEASE_WAIT("login.mobile_id.pleaseWait"),
 	ONLY_DIGITS_ALLOWED("login.mobile_id.rm.error.canContainOnlyDigits"),
 	NUMBER_TOO_LONG("login.mobile_id.rm.error.numberIsTooLong"),
+	INVALID_ID_CODE("login.mobile_id.error.invalidIdCode"),
 	
 	//response
 	STATUS_OK ("login.mobile_id.error.OK"), //päring korras

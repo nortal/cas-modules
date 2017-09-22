@@ -29,6 +29,8 @@ public class MobileIdProperties {
 	private int mIdCheckDelay = 5;
 	
 	private int mIdCheckCount = 20;
+	
+	private boolean allowPhoneOrId = true;
 
 	public String getServiceName() {
 		return serviceName;
@@ -68,5 +70,13 @@ public class MobileIdProperties {
 
 	public void setmIdCheckCount(int mIdCheckCount) {
 		this.mIdCheckCount = mIdCheckCount;
+	}
+
+	public boolean isAllowPhoneOrId() {
+		return allowPhoneOrId;
+	}
+
+	public void setAllowPhoneOrId(boolean allowPhoneOrId) {
+		this.allowPhoneOrId = allowPhoneOrId;
 	}
 }

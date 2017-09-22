@@ -69,6 +69,7 @@ public class MobileidConfiguration {
 		controller.setMobileIdService(mobileIdService());
 		controller.setmIdCheckCount(mobileIdProperties.getmIdCheckCount());
 		controller.setmIdCheckDelay(mobileIdProperties.getmIdCheckDelay());
+		controller.setAllowPhoneOrId(mobileIdProperties.isAllowPhoneOrId());
 		return controller;
 	}
 
