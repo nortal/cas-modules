@@ -4,12 +4,9 @@ plugins {
 
 allprojects {
 	group = 'com.nortal.cas'
-	version = '5.1.1-2'
+	version = '5.1.4-1'
 	repositories {
 		jcenter()
-		maven {
-            url 'https://artifact.nortal.com/nortal-libs-release-local'
-        }
 	}
 }
 
