@@ -44,6 +44,11 @@ public class X509CredentialsToPrincipalResolver extends AbstractX509PrincipalRes
     * Entry name in certificate that holds username info
     */
    public static final String ID_CODE = "SERIALNUMBER";
+   
+   /**
+    * Serialnumber prefix in new id cards (since 12/2018)
+    */
+   private static final String PNOEE_PREFIX = "PNOEE-";
 
    private static final String FIRST_NAME = "GIVENNAME";
 
@@ -57,7 +62,7 @@ public class X509CredentialsToPrincipalResolver extends AbstractX509PrincipalRes
       if (log.isInfoEnabled()) {
          log.info("Creating principal for: " + certificateSubject);
       }
-      String idCode = getDistinguishedNameField(certificateSubject, ID_CODE);
+      String idCode = trimSnPrefixes(getDistinguishedNameField(certificateSubject, ID_CODE));
       String firstName = getDistinguishedNameField(certificateSubject, FIRST_NAME);
       String lastName = getDistinguishedNameField(certificateSubject, LAST_NAME);
       String countryCode = getDistinguishedNameField(certificateSubject, COUNTRY_CODE);
@@ -85,4 +90,11 @@ public class X509CredentialsToPrincipalResolver extends AbstractX509PrincipalRes
       return trimToNull(fieldValue);
    }
 
+	private static String trimSnPrefixes(String sn) {
+		if (sn != null && sn.startsWith(PNOEE_PREFIX)) {
+			return sn.substring(PNOEE_PREFIX.length());
+		} else {
+			return sn;
+		}
+	}
 }
